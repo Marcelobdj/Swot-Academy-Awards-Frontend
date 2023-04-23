@@ -1,0 +1,9 @@
+.admin-dashboard {
+    text-align: center;
+}
+
+.category-cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}

@@ -1,0 +1,27 @@
+/* src/styles/CategoryCard.css */
+.category-card {
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    margin: 10px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    width: 300px;
+    position: relative;
+}
+
+.category-card button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.category-card h3 {
+    margin: 0;
+    margin-bottom: 10px;
+}
+
+.category-card p {
+    margin: 0;
+}
