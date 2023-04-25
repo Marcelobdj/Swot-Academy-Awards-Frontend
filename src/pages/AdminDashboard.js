@@ -5,6 +5,7 @@ import {
     updateCategory,
     deleteCategory,
     setCurrentVotingCategory,
+    fetchVotingResults,
 } from "../api";
 import CategoryCard from "../components/CategoryCard";
 import CharacterInput from "../components/CharacterInput";
@@ -16,6 +17,7 @@ const AdminDashboard = () => {
     const [charInputs, setCharInputs] = useState([
         <CharacterInput onAddCharacter={handleAddCharacter} />,
     ]);
+    const [votingResults, setVotingResults] = useState(null);
 
     useEffect(() => {
         fetchCategoriesData();
@@ -93,7 +95,10 @@ const AdminDashboard = () => {
                 category._id === id ? response.data : category
             );
             setCategories(updatedCategories);
-            fetchVotingResults(id); // Fetch voting results after closing the voting
+
+            // Fetch voting results and update the state
+            const results = await fetchVotingResults(id);
+            setVotingResults(results.data);
         } catch (err) {
             console.error(err);
         }
@@ -133,6 +138,7 @@ const AdminDashboard = () => {
                         onDelete={handleDeleteCategory}
                         onClose={handleCloseVoting}
                         onSetVotingCategory={handleSetVotingCategory}
+                        votingResults={votingResults}
                         winner={votingResults[category._id]?.winner}
                         voteCount={votingResults[category._id]?.voteCount}
                     />
