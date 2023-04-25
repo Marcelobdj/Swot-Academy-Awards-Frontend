@@ -4,6 +4,8 @@ import "../styles/CharacterInput.css";
 const CharacterInput = ({ onAddCharacter }) => {
     const [character, setCharacter] = useState("");
     const [characters, setCharacters] = useState([]);
+    // Add a new state for disabled input
+    const [disabled, setDisabled] = useState(false);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -43,6 +45,15 @@ const CharacterInput = ({ onAddCharacter }) => {
         onAddCharacter(updatedCharacters);
     };
 
+    // Handle the "Allow voting for this character" button click
+    const handleAllowVoting = () => {
+        if (character.trim() !== "") {
+            onAddCharacter(character);
+            setCharacter("");
+            setDisabled(true);
+        }
+    };
+
     return (
         <div>
             <form onSubmit={handleSubmit}>
@@ -51,7 +62,11 @@ const CharacterInput = ({ onAddCharacter }) => {
                     value={character}
                     onChange={(e) => setCharacter(e.target.value)}
                     placeholder="Enter character name"
+                    disabled={disabled}
                 />
+                <button type="button" onClick={handleAllowVoting}>
+                    Allow voting for this character
+                </button>
                 <button type="submit">Add another character</button>
             </form>
             {characters.map((char, index) => (

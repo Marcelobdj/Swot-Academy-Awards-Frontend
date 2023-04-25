@@ -4,6 +4,7 @@ import {
     createCategory,
     updateCategory,
     deleteCategory,
+    setCurrentVotingCategory,
 } from "../api";
 import CategoryCard from "../components/CategoryCard";
 import CharacterInput from "../components/CharacterInput";
@@ -12,6 +13,9 @@ import "../styles/AdminDashboard.css";
 const AdminDashboard = () => {
     const [categories, setCategories] = useState([]);
     const [charList, setCharList] = useState([]);
+    const [charInputs, setCharInputs] = useState([
+        <CharacterInput onAddCharacter={handleAddCharacter} />,
+    ]);
 
     useEffect(() => {
         fetchCategoriesData();
@@ -26,8 +30,28 @@ const AdminDashboard = () => {
         }
     };
 
+    const fetchVotingResults = async (id) => {
+        try {
+            const response = await fetchVotingResults(id);
+            setVotingResults(response.data);
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
     const handleAddCharacter = (characters) => {
         setCharList(characters);
+    };
+
+    const handleAddCharInput = () => {
+        if (charList.length > 0) {
+            setCharInputs([
+                ...charInputs,
+                <CharacterInput onAddCharacter={handleAddCharacter} />,
+            ]);
+        } else {
+            alert("Please add a character in the last input first.");
+        }
     };
 
     const handleSubmitCategory = async (e) => {
@@ -45,6 +69,9 @@ const AdminDashboard = () => {
             await createCategory(newCategory);
             fetchCategoriesData();
             setCharList([]);
+            setCharInputs([
+                <CharacterInput onAddCharacter={handleAddCharacter} />,
+            ]);
         } catch (err) {
             console.error(err);
         }
@@ -66,6 +93,16 @@ const AdminDashboard = () => {
                 category._id === id ? response.data : category
             );
             setCategories(updatedCategories);
+            fetchVotingResults(id); // Fetch voting results after closing the voting
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
+    const handleSetVotingCategory = async (id) => {
+        try {
+            await setCurrentVotingCategory(id);
+            fetchCategoriesData(); // Refresh the categories to reflect the updated 'isOpen' state
         } catch (err) {
             console.error(err);
         }
@@ -74,7 +111,10 @@ const AdminDashboard = () => {
     return (
         <div className="admin-dashboard">
             <h1>Admin Dashboard</h1>
-            <CharacterInput onAddCharacter={handleAddCharacter} />
+            {charInputs}
+            <button type="button" onClick={handleAddCharInput}>
+                Add another character
+            </button>
             <form onSubmit={handleSubmitCategory}>
                 <input type="text" name="title" placeholder="Category Title" required />
                 <input
@@ -92,6 +132,9 @@ const AdminDashboard = () => {
                         category={category}
                         onDelete={handleDeleteCategory}
                         onClose={handleCloseVoting}
+                        onSetVotingCategory={handleSetVotingCategory}
+                        winner={votingResults[category._id]?.winner}
+                        voteCount={votingResults[category._id]?.voteCount}
                     />
                 ))}
             </div>

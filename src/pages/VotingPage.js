@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { fetchCategories, updateCategory } from "../api";
+import { fetchCategories, updateCategory, fetchVotingResults } from "../api";
 import '../styles/VotingPage.css';
 
 const VotingPage = () => {
     const [category, setCategory] = useState(null);
+    const [votingResults, setVotingResults] = useState(null);
 
     useEffect(() => {
         fetchCurrentCategory();
@@ -14,6 +15,13 @@ const VotingPage = () => {
             const response = await fetchCategories();
             const openCategory = response.data.find((category) => category.isOpen);
             setCategory(openCategory);
+            if (!openCategory) {
+                const closedCategory = response.data.find((category) => !category.isOpen);
+                if (closedCategory) {
+                    const results = await fetchVotingResults(closedCategory._id);
+                    setVotingResults(results.data);
+                }
+            }
         } catch (err) {
             console.error(err);
         }
@@ -56,6 +64,23 @@ const VotingPage = () => {
                         <textarea name="comment" placeholder="Add a comment (optional)"></textarea>
                         <button type="submit">Vote</button>
                     </form>
+                    <div className="characters-list">
+                        <h3>Characters allowed to vote:</h3>
+                        <ul>
+                            {category.characters.map((character, index) => (
+                                <li key={index}>{character}</li>
+                            ))}
+                        </ul>
+                    </div>
+                </div>
+            ) : votingResults ? (
+                <div>
+                    <h1>{votingResults.category.title}</h1>
+                    <h2>{votingResults.category.subtitle}</h2>
+                    <p>
+                        Voting is closed. The winner is {votingResults.winner} with{" "}
+                        {votingResults.voteCount} votes.
+                    </p>
                 </div>
             ) : (
                 <div>
