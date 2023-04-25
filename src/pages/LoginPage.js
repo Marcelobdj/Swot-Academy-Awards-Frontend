@@ -26,6 +26,7 @@ const LoginPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const user = users.find((user) => user.username === username && user.password === password);
+    console.log("User object:", user);
 
     if (user) {
       if (user.isAdmin) {
