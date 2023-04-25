@@ -13,6 +13,11 @@ import "../styles/AdminDashboard.css";
 const AdminDashboard = () => {
     const [categories, setCategories] = useState([]);
     const [charList, setCharList] = useState([]);
+
+    const handleAddCharacter = (characters) => {
+        setCharList(characters);
+    };
+
     const [charInputs, setCharInputs] = useState([
         <CharacterInput onAddCharacter={handleAddCharacter} />,
     ]);
@@ -38,10 +43,6 @@ const AdminDashboard = () => {
         } catch (err) {
             console.error(err);
         }
-    };
-
-    const handleAddCharacter = (characters) => {
-        setCharList(characters);
     };
 
     const handleAddCharInput = () => {
