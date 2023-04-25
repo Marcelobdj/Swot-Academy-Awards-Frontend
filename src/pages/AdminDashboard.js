@@ -21,6 +21,7 @@ const AdminDashboard = () => {
     const [charInputs, setCharInputs] = useState([
         <CharacterInput onAddCharacter={handleAddCharacter} />,
     ]);
+
     const [votingResults, setVotingResults] = useState(null);
 
     useEffect(() => {
@@ -46,14 +47,13 @@ const AdminDashboard = () => {
     };
 
     const handleAddCharInput = () => {
-        if (charList.length > 0) {
-            setCharInputs([
-                ...charInputs,
-                <CharacterInput onAddCharacter={handleAddCharacter} />,
-            ]);
-        } else {
-            alert("Please add a character in the last input first.");
-        }
+        setCharInputs((prevCharInputs) => [
+            ...prevCharInputs,
+            <CharacterInput
+                key={prevCharInputs.length}
+                onAddCharacter={handleAddCharacter}
+            />,
+        ]);
     };
 
     const handleSubmitCategory = async (e) => {
