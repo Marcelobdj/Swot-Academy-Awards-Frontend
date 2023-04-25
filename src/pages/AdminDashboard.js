@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { fetchCategories, createCategory, updateCategory, deleteCategory } from "../api";
+import {
+    fetchCategories,
+    createCategory,
+    updateCategory,
+    deleteCategory,
+} from "../api";
 import CategoryCard from "../components/CategoryCard";
 import CharacterInput from "../components/CharacterInput";
-import '../styles/AdminDashboard.css';
+import "../styles/AdminDashboard.css";
 
 const AdminDashboard = () => {
     const [categories, setCategories] = useState([]);
-    const [characters, setCharacters] = useState([]);
+    const [charList, setCharList] = useState([]);
 
     useEffect(() => {
         fetchCategoriesData();
@@ -21,8 +26,8 @@ const AdminDashboard = () => {
         }
     };
 
-    const handleAddCharacter = (character) => {
-        setCharacters([...characters, character]);
+    const handleAddCharacter = (characters) => {
+        setCharList(characters);
     };
 
     const handleSubmitCategory = async (e) => {
@@ -32,14 +37,14 @@ const AdminDashboard = () => {
         const newCategory = {
             title,
             subtitle,
-            characters,
+            characters: charList.map((char) => char.name),
             isOpen: true,
             votes: [],
         };
         try {
             await createCategory(newCategory);
             fetchCategoriesData();
-            setCharacters([]);
+            setCharList([]);
         } catch (err) {
             console.error(err);
         }
@@ -72,7 +77,12 @@ const AdminDashboard = () => {
             <CharacterInput onAddCharacter={handleAddCharacter} />
             <form onSubmit={handleSubmitCategory}>
                 <input type="text" name="title" placeholder="Category Title" required />
-                <input type="text" name="subtitle" placeholder="Category Subtitle" required />
+                <input
+                    type="text"
+                    name="subtitle"
+                    placeholder="Category Subtitle"
+                    required
+                />
                 <button type="submit">Create Category</button>
             </form>
             <div className="category-cards">
