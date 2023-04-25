@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: 'http://localhost:7000/api',
+    baseURL: 'http://206.189.200.26:7000/api',
 });
 
 // Categories API functions
