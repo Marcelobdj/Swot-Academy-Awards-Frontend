@@ -65,7 +65,7 @@ const VotingPage = () => {
                         <button type="submit">Vote</button>
                     </form>
                     <div className="characters-list">
-                        <h3>Characters allowed to vote:</h3>
+                        <h3>Characters allowed to be voted:</h3>
                         <ul>
                             {category.characters.map((character, index) => (
                                 <li key={index}>{character}</li>

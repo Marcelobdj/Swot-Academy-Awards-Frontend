@@ -46,16 +46,6 @@ const AdminDashboard = () => {
         }
     };
 
-    const handleAddCharInput = () => {
-        setCharInputs((prevCharInputs) => [
-            ...prevCharInputs,
-            <CharacterInput
-                key={prevCharInputs.length}
-                onAddCharacter={handleAddCharacter}
-            />,
-        ]);
-    };
-
     const handleSubmitCategory = async (e) => {
         e.preventDefault();
         const title = e.target.title.value;
@@ -117,9 +107,6 @@ const AdminDashboard = () => {
         <div className="admin-dashboard">
             <h1>Admin Dashboard</h1>
             {charInputs}
-            <button type="button" onClick={handleAddCharInput}>
-                Add another character
-            </button>
             <form onSubmit={handleSubmitCategory}>
                 <input type="text" name="title" placeholder="Category Title" required />
                 <input
