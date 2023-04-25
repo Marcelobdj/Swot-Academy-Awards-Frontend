@@ -5,7 +5,6 @@ import {
     updateCategory,
     deleteCategory,
     setCurrentVotingCategory,
-    fetchVotingResults,
 } from "../api";
 import CategoryCard from "../components/CategoryCard";
 import CharacterInput from "../components/CharacterInput";
@@ -139,8 +138,8 @@ const AdminDashboard = () => {
                         onClose={handleCloseVoting}
                         onSetVotingCategory={handleSetVotingCategory}
                         votingResults={votingResults}
-                        winner={votingResults[category._id]?.winner}
-                        voteCount={votingResults[category._id]?.voteCount}
+                        winner={votingResults?.[category._id]?.winner}
+                        voteCount={votingResults?.[category._id]?.voteCount}
                     />
                 ))}
             </div>
