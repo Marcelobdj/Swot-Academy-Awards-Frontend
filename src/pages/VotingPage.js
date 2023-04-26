@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { fetchCategories, updateCategory, fetchVotingResults } from "../api";
-import '../styles/VotingPage.css';
+import {
+    fetchCategories,
+    updateCategory,
+    fetchVotingResults,
+    submitVote,
+} from "../api";
+import "../styles/VotingPage.css";
 
 const VotingPage = () => {
     const [category, setCategory] = useState(null);
@@ -16,7 +21,9 @@ const VotingPage = () => {
             const openCategory = response.data.find((category) => category.isOpen);
             setCategory(openCategory);
             if (!openCategory) {
-                const closedCategory = response.data.find((category) => !category.isOpen);
+                const closedCategory = response.data.find(
+                    (category) => !category.isOpen
+                );
                 if (closedCategory) {
                     const results = await fetchVotingResults(closedCategory._id);
                     setVotingResults(results.data);
@@ -31,19 +38,17 @@ const VotingPage = () => {
         e.preventDefault();
         const selectedCharacter = e.target.character.value;
         const comment = e.target.comment.value;
+        const username = "John Doe"; // Replace this with the actual username from the user's context
 
-        // Update the category with the user's vote and comment
-        if (category) {
-            const updatedCategory = {
-                ...category,
-                votes: [...category.votes, { character: selectedCharacter, comment }],
-            };
-            try {
-                await updateCategory(category._id, updatedCategory);
-                fetchCurrentCategory();
-            } catch (err) {
-                console.error(err);
-            }
+        try {
+            await submitVote(category._id, username, selectedCharacter, comment);
+            // Show success message
+            alert("Vote added successfully");
+            fetchCurrentCategory();
+        } catch (err) {
+            console.error(err);
+            // Show error message
+            alert("An error occurred while submitting your vote");
         }
     };
 
@@ -61,7 +66,10 @@ const VotingPage = () => {
                                 </option>
                             ))}
                         </select>
-                        <textarea name="comment" placeholder="Add a comment (optional)"></textarea>
+                        <textarea
+                            name="comment"
+                            placeholder="Add a comment (optional)"
+                        ></textarea>
                         <button type="submit">Vote</button>
                     </form>
                     <div className="characters-list">
