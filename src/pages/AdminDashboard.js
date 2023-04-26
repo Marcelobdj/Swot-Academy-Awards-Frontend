@@ -5,6 +5,7 @@ import {
     updateCategory,
     deleteCategory,
     setCurrentVotingCategory,
+    fetchVotingResultsForCategory,
 } from "../api";
 import CategoryCard from "../components/CategoryCard";
 import CharacterInput from "../components/CharacterInput";
@@ -32,15 +33,6 @@ const AdminDashboard = () => {
         try {
             const response = await fetchCategories();
             setCategories(response.data);
-        } catch (err) {
-            console.error(err);
-        }
-    };
-
-    const fetchVotingResults = async (id) => {
-        try {
-            const response = await fetchVotingResults(id);
-            setVotingResults(response.data);
         } catch (err) {
             console.error(err);
         }
@@ -87,7 +79,7 @@ const AdminDashboard = () => {
             setCategories(updatedCategories);
 
             // Fetch voting results and update the state
-            const results = await fetchVotingResults(id);
+            const results = await fetchVotingResultsForCategory(id);
             setVotingResults(results.data);
         } catch (err) {
             console.error(err);
