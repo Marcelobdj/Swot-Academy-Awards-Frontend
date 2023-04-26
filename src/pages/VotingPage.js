@@ -80,7 +80,7 @@ const VotingPage = () => {
                         </ul>
                     </div>
                 </div>
-            ) : votingResults ? (
+            ) : (votingResults && votingResults.category) ? (
                 <div>
                     <h1>{votingResults.category.title}</h1>
                     <h2>{votingResults.category.subtitle}</h2>
