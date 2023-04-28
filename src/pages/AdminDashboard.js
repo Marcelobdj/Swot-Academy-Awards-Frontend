@@ -117,9 +117,8 @@ const AdminDashboard = () => {
                         onDelete={handleDeleteCategory}
                         onClose={handleCloseVoting}
                         onSetVotingCategory={handleSetVotingCategory}
-                        votingResults={votingResults}
-                        winner={votingResults?.[category._id]?.winner}
-                        voteCount={votingResults?.[category._id]?.voteCount}
+                        winner={votingResults?.winner}
+                        voteCount={votingResults?.voteCount}
                     />
                 ))}
             </div>

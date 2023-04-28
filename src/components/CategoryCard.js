@@ -1,30 +1,36 @@
 import React from "react";
 import '../styles/CategoryCard.css';
 
-const CategoryCard = ({ category, onDelete, onClose, onSetVotingCategory, winner, voteCount }) => {
-
-    const handleSetVotingCategory = () => {
-        onSetVotingCategory(category._id);
-    };
-
+const CategoryCard = ({
+    category,
+    onDelete,
+    onClose,
+    onSetVotingCategory,
+    winner,
+    voteCount,
+}) => {
     return (
         <div className="category-card">
-            <h3>{category.title}</h3>
-            <p>{category.subtitle}</p>
+            <h2>{category.title}</h2>
+            <h3>{category.subtitle}</h3>
             {category.isOpen ? (
                 <>
-                    <button onClick={() => onClose(category._id)}>Close voting</button>
-                    <button onClick={handleSetVotingCategory}>Set as Voting Category</button>
+                    <button onClick={() => onClose(category._id)}>Close Voting</button>
+                    <button onClick={() => onSetVotingCategory(category._id)}>
+                        Set as Current Voting Category
+                    </button>
                 </>
             ) : (
-                <div>
-                    <p>Voting is closed for this category.</p>
-                    <p>
-                        Winner: {winner} with {voteCount} vote{voteCount > 1 ? 's' : ''}
-                    </p>
-                </div>
+                <>
+                    <p>Voting is closed.</p>
+                    {winner && voteCount && (
+                        <p>
+                            The winner is {winner} with {voteCount} votes.
+                        </p>
+                    )}
+                </>
             )}
-            <button onClick={() => onDelete(category._id)}>X</button>
+            <button onClick={() => onDelete(category._id)}>Delete Category</button>
         </div>
     );
 };
