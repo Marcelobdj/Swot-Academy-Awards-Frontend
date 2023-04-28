@@ -23,8 +23,6 @@ const AdminDashboard = () => {
         <CharacterInput onAddCharacter={handleAddCharacter} />,
     ]);
 
-    const [votingResults, setVotingResults] = useState(null);
-
     useEffect(() => {
         fetchCategoriesData();
     }, []);
