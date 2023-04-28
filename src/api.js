@@ -1,7 +1,9 @@
 import axios from 'axios';
 
+const BASE_URL = 'http://206.189.200.26:7000/api';
+
 const api = axios.create({
-    BASE_URL: 'http://206.189.200.26:7000/api',
+    baseURL: BASE_URL,
 });
 
 // Categories API functions

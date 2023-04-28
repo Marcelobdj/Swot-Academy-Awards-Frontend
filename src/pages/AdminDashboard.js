@@ -75,14 +75,11 @@ const AdminDashboard = () => {
                 category._id === id ? response.data : category
             );
             setCategories(updatedCategories);
-
-            // Fetch voting results and update the state
-            const results = await fetchVotingResults(id);
-            setVotingResults(results.data);
         } catch (err) {
             console.error(err);
         }
     };
+
 
     const handleSetVotingCategory = async (id) => {
         try {
