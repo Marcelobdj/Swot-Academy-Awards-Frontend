@@ -28,7 +28,7 @@ const LoginPage = () => {
     const user = users.find((user) => user.username === username && user.password === password);
 
     if (user) {
-      if (user.role === "admin") {
+      if (user.isAdmin === true) {
         navigate("/admin-dashboard");
       } else {
         navigate("/voting-page");
