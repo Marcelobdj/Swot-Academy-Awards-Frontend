@@ -37,7 +37,7 @@ const VotingPage = () => {
         e.preventDefault();
         const selectedCharacter = e.target.character.value;
         const comment = e.target.comment.value;
-        const username = "John Doe"; // Replace this with the actual username from the user's context
+        const username = e.target.username.value
 
         try {
             await submitVote(category._id, username, selectedCharacter, comment);
